@@ -21,11 +21,11 @@ def openImages():
             images[fullPath] = tmp
 
 def processText(indexes, text):
-    global draw, arialFont
-
+    '''
+    Determines the coordinates where the text will be placed
+    '''
     x, y = None, None
-    print(f'{indexes}: {text}')
-    
+
     if indexes[0] == 64:
         x = 0
     elif indexes[0] == 256:
@@ -44,9 +44,37 @@ def processText(indexes, text):
     else:
         raise Exception(ArithmeticError('y out of bounds'))
  
-    draw.text((x, y), text, fill = 'white', font=arialFont)
+    _splitText((x, y), text)
+    
 
-    print(f'Alignment: ({x},{y})')
+# TODO: make this function splits large text. Maximum of 42 characters
+def _splitText(indexes, text):
+    global draw, arialFont
+    secondLine = None
+    thirdLine = None
+    
+    # split the first line
+    if len(text) > 13:
+        secondLine = text[13:]
+        if not text[13].isspace():
+            text = text[:13] + '-'
+        else:
+            text = text[:13]
+    
+    # Split the second line
+    if len(secondLine) > 13:
+        thirdLine = secondLine[13:]
+
+        if not secondLine[13].isspace():
+            secondLine = secondLine[:13] + '-'
+        else:
+            secondLine = secondLine[:13]
+
+    secondLine = secondLine.lstrip()
+    draw.text((indexes[0], indexes[1]), text, fill = 'white', font=arialFont)
+    print(f'{len(text)}: {text}')
+    return text
+
 
 openImages()
 
@@ -67,3 +95,6 @@ for index, key in enumerate(images):
         y += 192
 
 root.show()
+
+# WWWWWWWWWWWWWW
+# 01234567890123abcdefghijklmn

@@ -46,6 +46,17 @@ def processText(indexes, text):
  
     _splitText((x, y), text)
     
+def drawNMTs(coords):
+    '''
+    Draws the price
+    '''
+    global draw, arialFontBig
+    x = coords[0] - 64
+    y = coords[1] + 20
+
+    y2 = y + 25
+    draw.text((x, y), '5', font=arialFontBig)
+    draw.text((x, y2), 'NMTs', font=arialFontBig)
 
 # TODO: make this function splits large text. Maximum of 42 characters
 def _splitText(indexes, text):
@@ -118,6 +129,7 @@ openImages()
 
 root = Image.new('RGBA', (580, 580))
 arialFont = ImageFont.truetype("assets/fonts/arialbd.ttf", 15)
+arialFontBig = ImageFont.truetype('assets/fonts/arialbd.ttf', 26)
 draw = ImageDraw.Draw(root)
 
 # draw vertical lines
@@ -132,6 +144,7 @@ draw.line([(0, 192), 640,192], fill='white', width=1)
 x = 64
 y = 0
 for index, key in enumerate(images):
+    drawNMTs((x,y))
     root.paste(images[key], (x, y), images[key])
     processText((x, y), '01234567890123abcdefghijklmnopqrstubwxyzXX01234567890123abcdefghijklmnopqrstubwxyzXX')
     x += 192

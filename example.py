@@ -49,7 +49,7 @@ def processText(indexes, text):
 
 # TODO: make this function splits large text. Maximum of 42 characters
 def _splitText(indexes, text):
-    global draw, arialFont
+    textAppend = []
     secondLine = None
     thirdLine = None
     
@@ -60,6 +60,8 @@ def _splitText(indexes, text):
             text = text[:13] + '-'
         else:
             text = text[:13]
+        secondLine = secondLine.lstrip() if secondLine else None
+
     
     # Split the second line
     if len(secondLine) > 13:
@@ -69,12 +71,27 @@ def _splitText(indexes, text):
             secondLine = secondLine[:13] + '-'
         else:
             secondLine = secondLine[:13]
+        thirdLine = thirdLine.lstrip() if thirdLine else None
 
-    secondLine = secondLine.lstrip()
-    draw.text((indexes[0], indexes[1]), text, fill = 'white', font=arialFont)
-    print(f'{len(text)}: {text}')
-    return text
+    # append to array and send to next function
+    textAppend.append(text)
+    textAppend.append(secondLine)
+    textAppend.append(thirdLine)
+    _drawText(indexes, textAppend)
 
+def _drawText(indexes, text):
+    global draw, arialFont
+
+    # calculate the y position of where the text should be placed
+    for i, x in enumerate(text):
+        yPos = indexes[1]
+
+        if x:
+            if i == 1:
+                yPos = indexes[1] + 20
+            if i == 2:
+                yPos = indexes[1] + 40
+            draw.text((indexes[0], yPos), text[i], fill = 'white', font=arialFont)
 
 openImages()
 
@@ -82,12 +99,12 @@ root = Image.new('RGBA', (640, 640))
 arialFont = ImageFont.truetype("assets/fonts/arialbd.ttf", 15)
 draw = ImageDraw.Draw(root)
 
-# drawing algorithm
+
 x = 64
 y = 0
 for index, key in enumerate(images):
     root.paste(images[key], (x, y))
-    processText((x, y), 'WWWWWWWWWWWWWW')
+    processText((x, y), '01234567890123abcdefghijklmn')
     x += 192
 
     if x == 640:

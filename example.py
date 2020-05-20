@@ -49,9 +49,14 @@ def processText(indexes, text):
 
 # TODO: make this function splits large text. Maximum of 42 characters
 def _splitText(indexes, text):
+    '''
+    Splits the text after 13 characters and stores them into an array
+    Supports up to 4 lines, so a total of 14 * 3 characters
+    '''
     textAppend = []
     secondLine = None
     thirdLine = None
+    fourthLine = None
     
     # split the first line
     if len(text) > 13:
@@ -62,7 +67,6 @@ def _splitText(indexes, text):
             text = text[:13]
         secondLine = secondLine.lstrip() if secondLine else None
 
-    
     # Split the second line
     if len(secondLine) > 13:
         thirdLine = secondLine[13:]
@@ -73,10 +77,25 @@ def _splitText(indexes, text):
             secondLine = secondLine[:13]
         thirdLine = thirdLine.lstrip() if thirdLine else None
 
+    # Split the third line
+    if len(thirdLine) > 13:
+        fourthLine = thirdLine[13:]
+
+        if not thirdLine[13].isspace():
+            thirdLine = thirdLine[:13] + '-'
+        else:
+            thirdLine = thirdLine[:13]
+        fourthLine = fourthLine.lstrip() if thirdLine else None
+
+    if len(fourthLine) > 13:
+        fourthLine = fourthLine[:13] + '.'
+
     # append to array and send to next function
     textAppend.append(text)
     textAppend.append(secondLine)
     textAppend.append(thirdLine)
+    textAppend.append(fourthLine)
+
     _drawText(indexes, textAppend)
 
 def _drawText(indexes, text):
@@ -88,9 +107,11 @@ def _drawText(indexes, text):
 
         if x:
             if i == 1:
-                yPos = indexes[1] + 20
+                yPos = indexes[1] + 18
             if i == 2:
-                yPos = indexes[1] + 40
+                yPos = indexes[1] + 36
+            if i == 3:
+                yPos = indexes[1] + 54
             draw.text((indexes[0], yPos), text[i], fill = 'white', font=arialFont)
 
 openImages()
@@ -104,7 +125,7 @@ x = 64
 y = 0
 for index, key in enumerate(images):
     root.paste(images[key], (x, y))
-    processText((x, y), '01234567890123abcdefghijklmn')
+    processText((x, y), '01234567890123abcdefghijklmnopqrstubwxyzXX01234567890123abcdefghijklmnopqrstubwxyzXX')
     x += 192
 
     if x == 640:
@@ -112,6 +133,3 @@ for index, key in enumerate(images):
         y += 192
 
 root.show()
-
-# WWWWWWWWWWWWWW
-# 01234567890123abcdefghijklmn

@@ -116,15 +116,23 @@ def _drawText(indexes, text):
 
 openImages()
 
-root = Image.new('RGBA', (640, 640))
+root = Image.new('RGBA', (580, 580))
 arialFont = ImageFont.truetype("assets/fonts/arialbd.ttf", 15)
 draw = ImageDraw.Draw(root)
+
+# draw vertical lines
+draw.line([(192, 0), 192,640], fill='white', width=1)
+draw.line([(384,0), (384,640)], fill='white', width=1)
+
+# draw horizontal lines
+draw.line([(0, 384), 640,384], fill='white', width=1)
+draw.line([(0, 192), 640,192], fill='white', width=1)
 
 
 x = 64
 y = 0
 for index, key in enumerate(images):
-    root.paste(images[key], (x, y))
+    root.paste(images[key], (x, y), images[key])
     processText((x, y), '01234567890123abcdefghijklmnopqrstubwxyzXX01234567890123abcdefghijklmnopqrstubwxyzXX')
     x += 192
 

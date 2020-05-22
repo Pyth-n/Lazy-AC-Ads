@@ -1,4 +1,5 @@
 import os
+import ast
 from selenium.webdriver import Firefox
 from selenium.webdriver.firefox.options import Options
 
@@ -34,7 +35,20 @@ def saveItems():
     global items
     with open('scraper/items.txt', 'w') as f:
         f.write(str(items))
+        print('wrote item.txt')
 
+def readItems():
+    global items
+    tmp = None
+    try:
+        with open('scraper/items.txt', 'r') as r:
+            tmp = r.read()
+        items = ast.literal_eval(tmp)
+        print('read item.txt')
+    except:
+        print('error readings items')
+
+readItems()
 getDescriptionsAndImages('https://nookazon.com/profile/1921469521/wishlist')
 saveItems()
 

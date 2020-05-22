@@ -1,5 +1,6 @@
 import os
 import ast
+import re
 from selenium.webdriver import Firefox
 from selenium.webdriver.firefox.options import Options
 
@@ -31,6 +32,10 @@ def getDescriptionsAndImages(link):
         imgSrc = text.find_element_by_xpath('.//img[@class="listing-item-img"]').get_attribute('src')
         items[imgSrc] = description
 
+def __stripAmount(item):
+    newString = re.sub(r'^(\d*\sX\s)?', '', item)
+    print(newString)
+
 def saveItems():
     global items
     with open('scraper/items.txt', 'w') as f:
@@ -49,7 +54,8 @@ def readItems():
         print('error readings items')
 
 readItems()
-getDescriptionsAndImages('https://nookazon.com/profile/1921469521/wishlist')
-saveItems()
+__stripAmount(items['https://acnhcdn.com/latest/FtrIcon/FtrCushionJapan_Remake_0_0.png'])
+# getDescriptionsAndImages('https://nookazon.com/profile/1921469521/wishlist')
+# saveItems()
 
 browser.close()

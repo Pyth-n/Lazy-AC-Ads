@@ -13,9 +13,11 @@ browser.get('https://nookazon.com/profile/1921469521/wishlist')
 browser.implicitly_wait(100)
 
 results = browser.find_elements_by_class_name('row')
+children = results[0].find_elements_by_class_name('listing-row')
+browser.implicitly_wait(20)
 
 # text
-for text in results[0].find_elements_by_class_name('listing-row'):
+for text in children:
     lol = text.find_element_by_xpath('.//div[@class="listing-name"]').text
     itemNames.append(lol)
 

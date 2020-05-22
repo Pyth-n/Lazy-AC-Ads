@@ -30,11 +30,11 @@ def getDescriptionsAndImages(link):
         browser.implicitly_wait(100)
         description = text.find_element_by_xpath('.//div[@class="listing-name"]').text
         imgSrc = text.find_element_by_xpath('.//img[@class="listing-item-img"]').get_attribute('src')
-        items[imgSrc] = description
+        items[imgSrc] = __stripAmount(description)
 
 def __stripAmount(item):
     newString = re.sub(r'^(\d*\sX\s)?', '', item)
-    print(newString)
+    return newString
 
 def saveItems():
     global items
@@ -53,9 +53,8 @@ def readItems():
     except:
         print('error readings items')
 
-readItems()
-__stripAmount(items['https://acnhcdn.com/latest/FtrIcon/FtrCushionJapan_Remake_0_0.png'])
-# getDescriptionsAndImages('https://nookazon.com/profile/1921469521/wishlist')
-# saveItems()
+# readItems()
+getDescriptionsAndImages('https://nookazon.com/profile/1921469521/wishlist')
+saveItems()
 
 browser.close()

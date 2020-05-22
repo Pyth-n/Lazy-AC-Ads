@@ -19,7 +19,7 @@ def getDescriptionsAndImages(link):
 
     results = browser.find_elements_by_class_name('row')
     browser.implicitly_wait(100)
-    
+
     children = results[0].find_elements_by_class_name('listing-row')
     browser.implicitly_wait(100)
 
@@ -30,6 +30,12 @@ def getDescriptionsAndImages(link):
         imgSrc = text.find_element_by_xpath('.//img[@class="listing-item-img"]').get_attribute('src')
         items[imgSrc] = description
 
+def saveItems():
+    global items
+    with open('scraper/items.txt', 'w') as f:
+        f.write(str(items))
+
 getDescriptionsAndImages('https://nookazon.com/profile/1921469521/wishlist')
+saveItems()
 
 browser.close()

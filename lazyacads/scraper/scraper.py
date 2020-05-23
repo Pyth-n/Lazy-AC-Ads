@@ -19,7 +19,7 @@ browser = None
 
 def getDescriptionsAndImages(link):
     global browser
-    browser = Firefox(executable_path='scraper/geckodriver')
+    browser = Firefox(executable_path='lazyacads/scraper/geckodriver')
     browser.implicitly_wait(12)
 
     # opens the link. waits every DOM query
@@ -51,7 +51,7 @@ def __loadAllItems():
 
 def saveItems():
     global items
-    with open('scraper/items.txt', 'w') as f:
+    with open('lazyacads/scraper/items.txt', 'w') as f:
         f.write(str(items))
         print('wrote item.txt')
 
@@ -59,7 +59,7 @@ def readItems():
     global items
     tmp = None
     try:
-        with open('scraper/items.txt', 'r') as r:
+        with open('lazyacads/scraper/items.txt', 'r') as r:
             tmp = r.read()
         items = ast.literal_eval(tmp)
         print('read item.txt')
@@ -73,11 +73,8 @@ def close():
     '''
     browser.close()
 
-# readItems()
-#getDescriptionsAndImages('https://nookazon.com/profile/1921469521/wishlist')
-#saveItems()
-
-#browser.close()
-
 if __name__ == '__main__':
-    print('hello world')
+    readItems()
+    getDescriptionsAndImages('https://nookazon.com/profile/1921469521/wishlist')
+    saveItems()
+    close()

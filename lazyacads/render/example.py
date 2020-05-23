@@ -5,7 +5,7 @@ import ast
 import time
 import requests
 from PIL import Image, ImageDraw, ImageFont
-from scraper import scraper
+from lazyacads.scraper import scraper
 
 # get rid of previous debug clutter
 os.system('clear')
@@ -20,13 +20,13 @@ itemsLocal = {}
 
 # global variables
 root = Image.new('RGBA', (580, 580))
-arialFont = ImageFont.truetype("assets/fonts/arialbd.ttf", 15)
-arialFontBig = ImageFont.truetype('assets/fonts/arialbd.ttf', 26)
+arialFont = ImageFont.truetype("lazyacads/assets/fonts/arialbd.ttf", 15)
+arialFontBig = ImageFont.truetype('lazyacads/assets/fonts/arialbd.ttf', 26)
 draw = ImageDraw.Draw(root)
 
 def openItems():
     global items
-    with open('scraper/items.txt', 'r') as r:
+    with open('lazyacads/scraper/items.txt', 'r') as r:
         tmp = r.read()
     items = ast.literal_eval(tmp)
 
@@ -44,7 +44,7 @@ def downloadImages():
             break
 
         filename = key.split('/')[-1]
-        savePath = os.path.join('assets', filename)
+        savePath = os.path.join('lazyacads/assets', filename)
 
         with open(savePath, 'wb') as f:
             time.sleep(1)
@@ -57,7 +57,7 @@ def downloadImages():
 
 def openImages():
     # set path to assets folder
-    path = os.getcwd() + '/assets'
+    path = os.getcwd() + '/lazyacads/assets'
 
     # add image objects to dictionary
     for x in os.listdir(path):
@@ -206,11 +206,10 @@ def __drawText(indexes, text):
                 yPos = indexes[1] + 54
             draw.text((indexes[0], yPos), text[i], fill = 'white', font=arialFont)
 
-openItems()
-# downloadImages()
-openImages()
-drawLines()
-
-renderAll()
-
-root.show()
+if __name__ == '__main__':
+    openItems()
+    downloadImages()
+    openImages()
+    drawLines()
+    renderAll()
+    root.show()

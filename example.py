@@ -15,6 +15,7 @@ images = {}
 # Holds local scraper/items.txt
 # Keys: full link to PNG files. Values: Description of item
 items = {}
+itemsLocal = {}
 
 # global variables
 root = Image.new('RGBA', (580, 580))
@@ -28,10 +29,16 @@ def openItems():
         tmp = r.read()
     items = ast.literal_eval(tmp)
 
+    # store items locally
+    for x in items:
+        tmpUrl = x.split('/')[-1]
+        itemsLocal[tmpUrl] = items[x]
+
 def downloadImages():
     global items
 
     for i, key in enumerate(items):
+        # save only 9 items
         if i > 8:
             break
 
@@ -111,6 +118,12 @@ def drawLines():
     draw.line([(0, 384), 640,384], fill='white', width=1)
     draw.line([(0, 192), 640,192], fill='white', width=1)
 
+def __getValue(key):
+    key = key.split('/')[-1]
+    if key in itemsLocal:
+        return itemsLocal[key]
+    return 'error getting name'
+
 def __splitText(indexes, text):
     '''
     Splits the text after 13 characters and stores them into an array
@@ -177,7 +190,7 @@ def __drawText(indexes, text):
                 yPos = indexes[1] + 54
             draw.text((indexes[0], yPos), text[i], fill = 'white', font=arialFont)
 
-# openItems()
+openItems()
 # downloadImages()
 openImages()
 drawLines()
@@ -188,7 +201,7 @@ y = 0
 for index, key in enumerate(images):
     drawNMTs((x,y))
     root.paste(images[key], (x, y), images[key])
-    processText((x, y), '01234567890123abcdefghijklmnopqrstubwxyzXX01234567890123abcdefghijklmnopqrstubwxyzXX')
+    processText((x, y), __getValue(key))
     x += 192
 
     if x == 640:

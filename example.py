@@ -48,7 +48,9 @@ def openImages():
     path = os.getcwd() + '/assets'
 
     # add image objects to dictionary
-    for x in os.listdir(path):
+    for i, x in enumerate(os.listdir(path)):
+        if i > 8:
+            break # don't add more than 9 files
         fullPath = os.path.join(path, x)
         # ignore folders
         if os.path.isfile(fullPath):
@@ -169,8 +171,8 @@ def __drawText(indexes, text):
                 yPos = indexes[1] + 54
             draw.text((indexes[0], yPos), text[i], fill = 'white', font=arialFont)
 
-openItems()
-downloadImages()
+# openItems()
+# downloadImages()
 openImages()
 drawLines()
 

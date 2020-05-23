@@ -2,6 +2,8 @@ import os
 import sys
 import math
 import ast
+import time
+import requests
 from PIL import Image, ImageDraw, ImageFont
 
 # get rid of previous debug clutter
@@ -21,6 +23,25 @@ def openItems():
     with open('scraper/items.txt', 'r') as r:
         tmp = r.read()
     items = ast.literal_eval(tmp)
+
+def downloadImages():
+    global items
+
+    for i, key in enumerate(items):
+        if i > 8:
+            break
+
+        filename = key.split('/')[-1]
+        savePath = os.path.join('assets', filename)
+
+        with open(savePath, 'wb') as f:
+            time.sleep(1)
+            res = requests.get(key, stream = True)
+
+            for block in res.iter_content(1024):
+                if not block:
+                    break
+                f.write(block)
 
 def openImages():
     # set path to assets folder
@@ -149,7 +170,7 @@ def __drawText(indexes, text):
             draw.text((indexes[0], yPos), text[i], fill = 'white', font=arialFont)
 
 openItems()
-
+downloadImages()
 openImages()
 drawLines()
 

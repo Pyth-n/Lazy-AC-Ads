@@ -44,7 +44,7 @@ def processText(indexes, text):
     else:
         raise Exception(ArithmeticError('y out of bounds'))
  
-    _splitText((x, y), text)
+    __splitText((x, y), text)
     
 def drawNMTs(coords):
     '''
@@ -58,8 +58,7 @@ def drawNMTs(coords):
     draw.text((x, y), '5', font=arialFontBig)
     draw.text((x, y2), 'NMTs', font=arialFontBig)
 
-# TODO: make this function splits large text. Maximum of 42 characters
-def _splitText(indexes, text):
+def __splitText(indexes, text):
     '''
     Splits the text after 13 characters and stores them into an array
     Supports up to 4 lines, so a total of 14 * 3 characters
@@ -107,9 +106,9 @@ def _splitText(indexes, text):
     textAppend.append(thirdLine)
     textAppend.append(fourthLine)
 
-    _drawText(indexes, textAppend)
+    __drawText(indexes, textAppend)
 
-def _drawText(indexes, text):
+def __drawText(indexes, text):
     global draw, arialFont
 
     # calculate the y position of where the text should be placed

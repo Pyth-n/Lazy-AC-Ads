@@ -65,9 +65,9 @@ def _splitText(indexes, text):
     Supports up to 4 lines, so a total of 14 * 3 characters
     '''
     textAppend = []
-    secondLine = None
-    thirdLine = None
-    fourthLine = None
+    secondLine = ''
+    thirdLine = ''
+    fourthLine = ''
     
     # split the first line
     if len(text) > 13:

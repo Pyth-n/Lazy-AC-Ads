@@ -8,6 +8,12 @@ os.system('clear')
 
 images = {}
 
+# global variables
+root = Image.new('RGBA', (580, 580))
+arialFont = ImageFont.truetype("assets/fonts/arialbd.ttf", 15)
+arialFontBig = ImageFont.truetype('assets/fonts/arialbd.ttf', 26)
+draw = ImageDraw.Draw(root)
+
 def openImages():
     # set path to assets folder
     path = os.getcwd() + '/assets'
@@ -126,11 +132,6 @@ def __drawText(indexes, text):
 
 openImages()
 
-root = Image.new('RGBA', (580, 580))
-arialFont = ImageFont.truetype("assets/fonts/arialbd.ttf", 15)
-arialFontBig = ImageFont.truetype('assets/fonts/arialbd.ttf', 26)
-draw = ImageDraw.Draw(root)
-
 # draw vertical lines
 draw.line([(192, 0), 192,640], fill='white', width=1)
 draw.line([(384,0), (384,640)], fill='white', width=1)
@@ -138,7 +139,6 @@ draw.line([(384,0), (384,640)], fill='white', width=1)
 # draw horizontal lines
 draw.line([(0, 384), 640,384], fill='white', width=1)
 draw.line([(0, 192), 640,192], fill='white', width=1)
-
 
 x = 64
 y = 0

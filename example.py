@@ -64,6 +64,16 @@ def drawNMTs(coords):
     draw.text((x, y), '5', font=arialFontBig)
     draw.text((x, y2), 'NMTs', font=arialFontBig)
 
+def drawLines():
+    global draw
+    # draw vertical lines
+    draw.line([(192, 0), 192,640], fill='white', width=1)
+    draw.line([(384,0), (384,640)], fill='white', width=1)
+
+    # draw horizontal lines
+    draw.line([(0, 384), 640,384], fill='white', width=1)
+    draw.line([(0, 192), 640,192], fill='white', width=1)
+
 def __splitText(indexes, text):
     '''
     Splits the text after 13 characters and stores them into an array
@@ -131,14 +141,7 @@ def __drawText(indexes, text):
             draw.text((indexes[0], yPos), text[i], fill = 'white', font=arialFont)
 
 openImages()
-
-# draw vertical lines
-draw.line([(192, 0), 192,640], fill='white', width=1)
-draw.line([(384,0), (384,640)], fill='white', width=1)
-
-# draw horizontal lines
-draw.line([(0, 384), 640,384], fill='white', width=1)
-draw.line([(0, 192), 640,192], fill='white', width=1)
+drawLines()
 
 x = 64
 y = 0

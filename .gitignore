@@ -1,2 +1,6 @@
 env/
-1.png
+.vscode/
+geckodriver.log
+scraper/items.txt
+assets/
+*.pyc

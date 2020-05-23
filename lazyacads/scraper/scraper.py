@@ -2,6 +2,7 @@ import os
 import ast
 import re
 import time
+import random
 from selenium.webdriver import Firefox
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
@@ -44,16 +45,21 @@ def __loadAllItems():
     while True:
         try:
             WebDriverWait(browser, 5).until(EC.element_to_be_clickable((By.XPATH, './/div[@class="see-all-btn-bar"]/button'))).click()
-            time.sleep(2) # don't want the api to throttle connection
+            time.sleep(random.randint(2, 4)) # don't want the api to throttle connection
         except:
             break
     return
 
 def saveItems():
     global items
-    with open('lazyacads/scraper/items.txt', 'w') as f:
-        f.write(str(items))
-        print('wrote item.txt')
+    try:
+        with open('lazyacads/scraper/items.txt', 'w') as f:
+            f.write(str(items))
+            print('wrote item.txt')
+    except:
+        close()
+        raise Exception('Error saving items.txt')
+
 
 def readItems():
     global items
@@ -73,8 +79,11 @@ def close():
     '''
     browser.close()
 
-if __name__ == '__main__':
-    readItems()
-    getDescriptionsAndImages('https://nookazon.com/profile/1921469521/wishlist')
+def main(link):
+    #readItems()
+    getDescriptionsAndImages(link)
     saveItems()
     close()
+
+if __name__ == '__main__':
+    main('https://nookazon.com/profile/1921469521/wishlist')

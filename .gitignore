@@ -2,3 +2,4 @@ env/
 .vscode/
 geckodriver.log
 scraper/items.txt
+assets/

@@ -5,6 +5,7 @@ import ast
 import time
 import requests
 from PIL import Image, ImageDraw, ImageFont
+from scraper import scraper
 
 # get rid of previous debug clutter
 os.system('clear')
@@ -108,6 +109,21 @@ def drawNMTs(coords):
     draw.text((x, y), '5', font=arialFontBig)
     draw.text((x, y2), 'NMTs', font=arialFontBig)
 
+def renderAll():
+    global images, root
+    # drawing algorithm
+    x = 64
+    y = 0
+    for index, key in enumerate(images):
+        drawNMTs((x,y))
+        root.paste(images[key], (x, y), images[key])
+        processText((x, y), __getValue(key))
+        x += 192
+
+        if x == 640:
+            x = 64
+            y += 192
+
 def drawLines():
     global draw
     # draw vertical lines
@@ -195,17 +211,6 @@ openItems()
 openImages()
 drawLines()
 
-# drawing algorithm
-x = 64
-y = 0
-for index, key in enumerate(images):
-    drawNMTs((x,y))
-    root.paste(images[key], (x, y), images[key])
-    processText((x, y), __getValue(key))
-    x += 192
-
-    if x == 640:
-        x = 64
-        y += 192
+renderAll()
 
 root.show()

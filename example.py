@@ -48,12 +48,14 @@ def openImages():
     path = os.getcwd() + '/assets'
 
     # add image objects to dictionary
-    for i, x in enumerate(os.listdir(path)):
-        if i > 8:
+    for x in os.listdir(path):
+        if len(images) > 8:
             break # don't add more than 9 files
         fullPath = os.path.join(path, x)
+        filePath, ext = os.path.splitext(fullPath)
+
         # ignore folders
-        if os.path.isfile(fullPath):
+        if os.path.isfile(fullPath) and ext == '.png':
             tmp = Image.open(fullPath)
             images[fullPath] = tmp
 

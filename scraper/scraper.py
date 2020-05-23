@@ -1,7 +1,11 @@
 import os
 import ast
 import re
+import time
 from selenium.webdriver import Firefox
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.common.by import By
 from selenium.webdriver.firefox.options import Options
 
 opts = Options()
@@ -12,22 +16,19 @@ assert opts.headless
 items = {}
 
 browser = Firefox(executable_path='scraper/geckodriver')
+browser.implicitly_wait(12)
 
 def getDescriptionsAndImages(link):
     global browser
     # opens the link. waits every DOM query
     browser.get(link)
-    browser.implicitly_wait(100)
-
+    __loadAllItems()
     results = browser.find_elements_by_class_name('row')
-    browser.implicitly_wait(100)
 
     children = results[0].find_elements_by_class_name('listing-row')
-    browser.implicitly_wait(100)
 
     # stores description and image links in dictionary
     for text in children:
-        browser.implicitly_wait(100)
         description = text.find_element_by_xpath('.//div[@class="listing-name"]').text
         imgSrc = text.find_element_by_xpath('.//img[@class="listing-item-img"]').get_attribute('src')
         items[imgSrc] = __stripAmount(description)
@@ -35,6 +36,16 @@ def getDescriptionsAndImages(link):
 def __stripAmount(item):
     newString = re.sub(r'^(\d*\sX\s)?', '', item)
     return newString
+
+def __loadAllItems():
+    global browser
+    while True:
+        try:
+            WebDriverWait(browser, 5).until(EC.element_to_be_clickable((By.XPATH, './/div[@class="see-all-btn-bar"]/button'))).click()
+            time.sleep(2) # don't want the api to throttle connection
+        except:
+            break
+    return
 
 def saveItems():
     global items

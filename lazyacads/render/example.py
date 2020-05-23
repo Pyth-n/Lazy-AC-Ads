@@ -26,9 +26,14 @@ draw = ImageDraw.Draw(root)
 
 def openItems():
     global items
-    with open('lazyacads/scraper/items.txt', 'r') as r:
-        tmp = r.read()
-    items = ast.literal_eval(tmp)
+
+    try:
+        with open('lazyacads/scraper/items.txt', 'r') as r:
+            tmp = r.read()
+        items = ast.literal_eval(tmp)
+    except FileNotFoundError as fnf:
+        print(fnf)
+        quit()
 
     # store items locally
     for x in items:

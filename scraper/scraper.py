@@ -15,11 +15,13 @@ assert opts.headless
 # Item dictionary
 items = {}
 
-browser = Firefox(executable_path='scraper/geckodriver')
-browser.implicitly_wait(12)
+browser = None
 
 def getDescriptionsAndImages(link):
     global browser
+    browser = Firefox(executable_path='scraper/geckodriver')
+    browser.implicitly_wait(12)
+
     # opens the link. waits every DOM query
     browser.get(link)
     __loadAllItems()
@@ -64,8 +66,18 @@ def readItems():
     except:
         print('error readings items')
 
-# readItems()
-getDescriptionsAndImages('https://nookazon.com/profile/1921469521/wishlist')
-saveItems()
+def close():
+    global browser
+    '''
+    Closes FireFox browser
+    '''
+    browser.close()
 
-browser.close()
+# readItems()
+#getDescriptionsAndImages('https://nookazon.com/profile/1921469521/wishlist')
+#saveItems()
+
+#browser.close()
+
+if __name__ == '__main__':
+    print('hello world')

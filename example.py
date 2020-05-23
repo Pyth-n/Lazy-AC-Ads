@@ -1,18 +1,26 @@
 import os
 import sys
 import math
+import ast
 from PIL import Image, ImageDraw, ImageFont
 
 # get rid of previous debug clutter
 os.system('clear')
 
 images = {}
+items = {}
 
 # global variables
 root = Image.new('RGBA', (580, 580))
 arialFont = ImageFont.truetype("assets/fonts/arialbd.ttf", 15)
 arialFontBig = ImageFont.truetype('assets/fonts/arialbd.ttf', 26)
 draw = ImageDraw.Draw(root)
+
+def openItems():
+    global items
+    with open('scraper/items.txt', 'r') as r:
+        tmp = r.read()
+    items = ast.literal_eval(tmp)
 
 def openImages():
     # set path to assets folder
@@ -140,9 +148,12 @@ def __drawText(indexes, text):
                 yPos = indexes[1] + 54
             draw.text((indexes[0], yPos), text[i], fill = 'white', font=arialFont)
 
+openItems()
+
 openImages()
 drawLines()
 
+# drawing algorithm
 x = 64
 y = 0
 for index, key in enumerate(images):

@@ -9,7 +9,11 @@ from PIL import Image, ImageDraw, ImageFont
 # get rid of previous debug clutter
 os.system('clear')
 
+# Holds dictionary of Image instances
 images = {}
+
+# Holds local scraper/items.txt
+# Keys: full link to PNG files. Values: Description of item
 items = {}
 
 # global variables

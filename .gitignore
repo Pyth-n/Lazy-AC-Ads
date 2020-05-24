@@ -2,5 +2,5 @@ env/
 .vscode/
 geckodriver.log
 scraper/items.txt
-assets/
+assets/*.png
 *.pyc

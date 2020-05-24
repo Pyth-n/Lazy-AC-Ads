@@ -13,13 +13,11 @@ from lazyacads.render import render
 
 re_url = re.compile(r'^(https://)?(nookazon.com/profile/\d*/wishlist)')
 
-url = 'https://nookazon.com/profile/1921469521/wishlist' #input('Enter/paste nookazon link: ')
-
 try:
-    shouldPrompt = str(input('Would you like to price the items (5 default)? (y/n): ').lower().lstrip())
+    url = str(input('Enter/paste nookazon link: '))
 except ValueError:
-    print('invalid input, no nmt prompts')
-    shouldPrompt = 'n'
+    print('input error, run again')
+    quit()
 
 try:
     re_url.search(url).group(2)
@@ -27,6 +25,12 @@ except AttributeError as ae:
     print(ae)
     print('That link is not a wishlist!')
     quit()
+
+try:
+    shouldPrompt = str(input('Would you like to price the items (5 default)? (y/n): ').lower().lstrip())
+except ValueError:
+    print('invalid input, no nmt prompts')
+    shouldPrompt = 'n'
 
 print('Scraping website, please do NOT touch')
 scraper.main(url)

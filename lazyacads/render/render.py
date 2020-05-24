@@ -75,7 +75,7 @@ def openImages():
 
         # ignore folders
         if os.path.isfile(fullPath) and ext == '.png':
-            tmp = Image.open(fullPath)
+            tmp = Image.open(fullPath).convert('RGBA')
             tmp2 = tmp.resize((128, 128))
             images[fullPath] = tmp2
             tmp.close()

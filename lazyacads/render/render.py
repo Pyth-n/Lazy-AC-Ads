@@ -151,8 +151,8 @@ def drawLines():
     draw.line([(384,0), (384,640)], fill='white', width=1)
 
     # draw horizontal lines
-    draw.line([(0, 384), 640,384], fill='white', width=1)
-    draw.line([(0, 192), 640,192], fill='white', width=1)
+    draw.line([(0, 382), 640,382], fill='white', width=1)
+    draw.line([(0, 190), 640,190], fill='white', width=1)
 
 def deletePNGs():
     '''

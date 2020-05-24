@@ -76,7 +76,9 @@ def openImages():
         # ignore folders
         if os.path.isfile(fullPath) and ext == '.png':
             tmp = Image.open(fullPath)
-            images[fullPath] = tmp
+            tmp2 = tmp.resize((128, 128))
+            images[fullPath] = tmp2
+            tmp.close()
 
 def processText(indexes, text):
     '''
@@ -240,6 +242,7 @@ def __drawText(indexes, text):
 def main():
     global root
     openItems()
+    deletePNGs()
     downloadImages()
     openImages()
     drawLines()
@@ -248,4 +251,4 @@ def main():
     root.save('rendered.png')
 
 if __name__ == '__main__':
-    deletePNGs()
+    main()

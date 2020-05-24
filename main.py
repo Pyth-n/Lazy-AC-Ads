@@ -35,8 +35,11 @@ except ValueError:
 print('Scraping website, please do NOT touch')
 scraper.main(url)
 
-if shouldPrompt[0] == 'y':
-    render.shouldPromptNMTs = True
+try:
+    if shouldPrompt[0] == 'y':
+        render.shouldPromptNMTs = True
+except IndexError as e:
+    print(e)
 
 print('Beginning to render file')
 render.main()

@@ -252,6 +252,7 @@ def main():
     renderAll()
     root.show()
     root.save('rendered.png')
+    print('Saved as rendered.png')
 
 if __name__ == '__main__':
     main()

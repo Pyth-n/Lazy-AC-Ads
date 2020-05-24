@@ -53,6 +53,7 @@ def downloadImages():
 
         with open(savePath, 'wb') as f:
             time.sleep(1)
+            print(f'Download image: {filename}')
             res = requests.get(key, stream = True)
 
             for block in res.iter_content(1024):
@@ -211,10 +212,13 @@ def __drawText(indexes, text):
                 yPos = indexes[1] + 54
             draw.text((indexes[0], yPos), text[i], fill = 'white', font=arialFont)
 
-if __name__ == '__main__':
+def main():
     openItems()
     downloadImages()
     openImages()
     drawLines()
     renderAll()
     root.show()
+
+if __name__ == '__main__':
+    main()

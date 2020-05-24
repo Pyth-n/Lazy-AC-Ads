@@ -151,6 +151,20 @@ def drawLines():
     draw.line([(0, 384), 640,384], fill='white', width=1)
     draw.line([(0, 192), 640,192], fill='white', width=1)
 
+def deletePNGs():
+    '''
+    Deletes ALL .png files inside the assets directory
+    '''
+    cwd = os.getcwd() + '/lazyacads/assets'
+    
+    for file in os.listdir(cwd):
+        fullPath = os.path.join(cwd, file)
+
+        filePath, ext = os.path.splitext(fullPath)
+        
+        if ext.lower() == '.png':
+            os.remove(fullPath)
+
 def __getValue(key):
     key = key.split('/')[-1]
     if key in itemsLocal:
@@ -234,4 +248,4 @@ def main():
     root.save('rendered.png')
 
 if __name__ == '__main__':
-    main()
+    deletePNGs()

@@ -134,8 +134,9 @@ def renderAll():
                     break
                 except ValueError:
                     print('Not a valid number, try again!')
-        drawNMTs((x,y), amount)
+        
         root.paste(images[key], (x, y), images[key])
+        drawNMTs((x,y), amount)
         processText((x, y), __getValue(key))
         x += 192
 
@@ -231,12 +232,14 @@ def __drawText(indexes, text):
         yPos = indexes[1]
 
         if x:
+            if i == 0:
+                yPos = indexes[1] + 10
             if i == 1:
-                yPos = indexes[1] + 18
+                yPos = indexes[1] + 28
             if i == 2:
-                yPos = indexes[1] + 36
+                yPos = indexes[1] + 46
             if i == 3:
-                yPos = indexes[1] + 54
+                yPos = indexes[1] + 64
             draw.text((indexes[0], yPos), text[i], fill = 'white', font=arialFont)
 
 def main():

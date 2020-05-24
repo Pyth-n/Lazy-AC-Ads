@@ -119,18 +119,19 @@ def drawNMTs(coords, amount):
     draw.text((x, y2), 'NMTs', font=arialFontBig)
 
 def renderAll():
-    global images, root
+    global images, root, shouldPromptNMTs
     # drawing algorithm
     x = 64
     y = 0
     for key in images:
         amount = 5
-        while True:
-            try:
-                amount = int(input(f'Enter NMT price for {__getValue(key)}: '))
-                break
-            except ValueError:
-                print('Not a valid number, try again!')
+        if shouldPromptNMTs:
+            while True:
+                try:
+                    amount = int(input(f'Enter NMT price for {__getValue(key)}: '))
+                    break
+                except ValueError:
+                    print('Not a valid number, try again!')
         drawNMTs((x,y), amount)
         root.paste(images[key], (x, y), images[key])
         processText((x, y), __getValue(key))

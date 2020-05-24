@@ -17,6 +17,7 @@ images = {}
 # Keys: full link to PNG files. Values: Description of item
 items = {}
 itemsLocal = {}
+shouldPromptNMTs = False
 
 # global variables
 root = Image.new('RGBA', (580, 580))
@@ -53,6 +54,7 @@ def downloadImages():
 
         with open(savePath, 'wb') as f:
             time.sleep(1)
+            print(f'Download image: {filename}')
             res = requests.get(key, stream = True)
 
             for block in res.iter_content(1024):
@@ -74,7 +76,9 @@ def openImages():
         # ignore folders
         if os.path.isfile(fullPath) and ext == '.png':
             tmp = Image.open(fullPath)
-            images[fullPath] = tmp
+            tmp2 = tmp.resize((128, 128))
+            images[fullPath] = tmp2
+            tmp.close()
 
 def processText(indexes, text):
     '''
@@ -102,7 +106,7 @@ def processText(indexes, text):
  
     __splitText((x, y), text)
     
-def drawNMTs(coords):
+def drawNMTs(coords, amount):
     '''
     Draws the price
     '''
@@ -110,17 +114,27 @@ def drawNMTs(coords):
     x = coords[0] - 64
     y = coords[1] + 20
 
+    amount = str(amount)
+
     y2 = y + 25
-    draw.text((x, y), '5', font=arialFontBig)
+    draw.text((x, y), amount, font=arialFontBig)
     draw.text((x, y2), 'NMTs', font=arialFontBig)
 
 def renderAll():
-    global images, root
+    global images, root, shouldPromptNMTs
     # drawing algorithm
     x = 64
     y = 0
-    for index, key in enumerate(images):
-        drawNMTs((x,y))
+    for key in images:
+        amount = 5
+        if shouldPromptNMTs:
+            while True:
+                try:
+                    amount = int(input(f'Enter NMT price for {__getValue(key)}: '))
+                    break
+                except ValueError:
+                    print('Not a valid number, try again!')
+        drawNMTs((x,y), amount)
         root.paste(images[key], (x, y), images[key])
         processText((x, y), __getValue(key))
         x += 192
@@ -138,6 +152,20 @@ def drawLines():
     # draw horizontal lines
     draw.line([(0, 384), 640,384], fill='white', width=1)
     draw.line([(0, 192), 640,192], fill='white', width=1)
+
+def deletePNGs():
+    '''
+    Deletes ALL .png files inside the assets directory
+    '''
+    cwd = os.getcwd() + '/lazyacads/assets'
+    
+    for file in os.listdir(cwd):
+        fullPath = os.path.join(cwd, file)
+
+        filePath, ext = os.path.splitext(fullPath)
+        
+        if ext.lower() == '.png':
+            os.remove(fullPath)
 
 def __getValue(key):
     key = key.split('/')[-1]
@@ -211,10 +239,16 @@ def __drawText(indexes, text):
                 yPos = indexes[1] + 54
             draw.text((indexes[0], yPos), text[i], fill = 'white', font=arialFont)
 
-if __name__ == '__main__':
+def main():
+    global root
     openItems()
+    deletePNGs()
     downloadImages()
     openImages()
     drawLines()
     renderAll()
     root.show()
+    root.save('rendered.png')
+
+if __name__ == '__main__':
+    main()

@@ -213,12 +213,14 @@ def __drawText(indexes, text):
             draw.text((indexes[0], yPos), text[i], fill = 'white', font=arialFont)
 
 def main():
+    global root
     openItems()
     downloadImages()
     openImages()
     drawLines()
     renderAll()
     root.show()
+    root.save('rendered.png')
 
 if __name__ == '__main__':
     main()

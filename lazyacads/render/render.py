@@ -17,6 +17,7 @@ images = {}
 # Keys: full link to PNG files. Values: Description of item
 items = {}
 itemsLocal = {}
+shouldPromptNMTs = False
 
 # global variables
 root = Image.new('RGBA', (580, 580))
@@ -103,7 +104,7 @@ def processText(indexes, text):
  
     __splitText((x, y), text)
     
-def drawNMTs(coords):
+def drawNMTs(coords, amount):
     '''
     Draws the price
     '''
@@ -111,8 +112,10 @@ def drawNMTs(coords):
     x = coords[0] - 64
     y = coords[1] + 20
 
+    amount = str(amount)
+
     y2 = y + 25
-    draw.text((x, y), '5', font=arialFontBig)
+    draw.text((x, y), amount, font=arialFontBig)
     draw.text((x, y2), 'NMTs', font=arialFontBig)
 
 def renderAll():
@@ -120,8 +123,15 @@ def renderAll():
     # drawing algorithm
     x = 64
     y = 0
-    for index, key in enumerate(images):
-        drawNMTs((x,y))
+    for key in images:
+        amount = 5
+        while True:
+            try:
+                amount = int(input(f'Enter NMT price for {__getValue(key)}: '))
+                break
+            except ValueError:
+                print('Not a valid number, try again!')
+        drawNMTs((x,y), amount)
         root.paste(images[key], (x, y), images[key])
         processText((x, y), __getValue(key))
         x += 192

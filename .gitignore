@@ -4,3 +4,4 @@ geckodriver.log
 scraper/items.txt
 *.png
 *.pyc
+lazyacads/scraper/items.txt

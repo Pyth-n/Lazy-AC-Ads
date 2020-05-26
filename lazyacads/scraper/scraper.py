@@ -19,19 +19,24 @@ items = {}
 browser = None
 
 def getDescriptionsAndImages(link):
+    '''
+    Gets only up to 9 total items from a Nookazon wishlist
+    '''
     global browser
     browser = Firefox(executable_path='lazyacads/scraper/geckodriver')
     browser.implicitly_wait(12)
 
     # opens the link. waits every DOM query
     browser.get(link)
-    __loadAllItems()
+    
     results = browser.find_elements_by_class_name('row')
 
     children = results[0].find_elements_by_class_name('listing-row')
 
     # stores description and image links in dictionary
-    for text in children:
+    for i, text in enumerate(children):
+        if i > 8:
+            break
         description = text.find_element_by_xpath('.//div[@class="listing-name"]').text
         imgSrc = text.find_element_by_xpath('.//img[@class="listing-item-img"]').get_attribute('src')
         items[imgSrc] = __stripAmount(description)
@@ -41,6 +46,9 @@ def __stripAmount(item):
     return newString
 
 def __loadAllItems():
+    '''
+    Looks for 'Load More' button no the Nookazon website and clicks it all the way to the bottom
+    '''
     global browser
     while True:
         try:
@@ -52,6 +60,9 @@ def __loadAllItems():
     return
 
 def saveItems():
+    '''
+    Saves dictionary string of picture links and its description
+    '''
     global items
     try:
         with open('lazyacads/scraper/items.txt', 'w') as f:
@@ -80,6 +91,9 @@ def close():
     browser.close()
 
 def main(link):
+    '''
+    Output: items.txt
+    '''
     getDescriptionsAndImages(link)
     saveItems()
     close()

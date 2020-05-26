@@ -7,6 +7,7 @@ from selenium.webdriver import Firefox
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
+from selenium.common import exceptions
 from selenium.webdriver.firefox.options import Options
 
 opts = Options()
@@ -26,7 +27,12 @@ def scrape(link):
     browser = Firefox(executable_path='lazyacads/scraper/geckodriver')
     browser.implicitly_wait(12)
 
-    __scrapeLinksAndDescriptions(browser, link)
+    try:
+        __scrapeLinksAndDescriptions(browser, link)
+    except:
+        print('There was connection issue (high traffic possibly). Please try again.')
+        close()
+        quit()
 
 def __scrapeLinksAndDescriptions(browser, link):
     '''
@@ -35,17 +41,24 @@ def __scrapeLinksAndDescriptions(browser, link):
     # opens the link. waits every DOM query
     browser.get(link)
     
-    results = browser.find_elements_by_class_name('row')
-
-    children = results[0].find_elements_by_class_name('listing-row')
+    try:
+        results = browser.find_elements_by_class_name('row')
+        children = results[0].find_elements_by_class_name('listing-row')
+    except exceptions.StaleElementReferenceException as e:
+        print(f'{e}')
+        raise
 
     # stores description and image links in dictionary
     for i, text in enumerate(children):
         if i > 8:
             break
-        description = text.find_element_by_xpath('.//div[@class="listing-name"]').text
-        imgSrc = text.find_element_by_xpath('.//img[@class="listing-item-img"]').get_attribute('src')
-        items[imgSrc] = __stripAmount(description)
+        try:
+            description = text.find_element_by_xpath('.//div[@class="listing-name"]').text
+            imgSrc = text.find_element_by_xpath('.//img[@class="listing-item-img"]').get_attribute('src')
+            items[imgSrc] = __stripAmount(description)
+        except exceptions.StaleElementReferenceException as e:
+            print(f'{e}')
+            raise
 
 def __stripAmount(item):
     '''

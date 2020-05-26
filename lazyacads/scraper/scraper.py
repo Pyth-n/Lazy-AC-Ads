@@ -48,6 +48,10 @@ def __scrapeLinksAndDescriptions(browser, link):
         items[imgSrc] = __stripAmount(description)
 
 def __stripAmount(item):
+    '''
+    input: "2 X Name of item"
+    output: "Name of item"
+    '''
     newString = re.sub(r'^(\d*\sX\s)?', '', item)
     return newString
 
@@ -62,6 +66,7 @@ def __loadAllItems():
             WebDriverWait(browser, 5).until(EC.element_to_be_clickable((By.XPATH, './/div[@class="see-all-btn-bar"]/button'))).click()
             time.sleep(random.randint(2, 4)) # don't want the api to throttle connection
         except:
+            print('Bottom page reached')
             break
     return
 
@@ -85,9 +90,10 @@ def readItems():
         with open('lazyacads/scraper/items.txt', 'r') as r:
             tmp = r.read()
         items = ast.literal_eval(tmp)
-        print('read item.txt')
-    except FileNotFoundError:
-        print('error readings items')
+        print('Read items.txt successfully')
+    except FileNotFoundError as e:
+        print(f'{e}: items.txt not found')
+        raise
 
 def close():
     global browser

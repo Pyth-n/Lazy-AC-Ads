@@ -18,7 +18,7 @@ items = {}
 
 browser = None
 
-def getDescriptionsAndImages(link):
+def scrape(link):
     '''
     Gets only up to 9 total items from a Nookazon wishlist
     '''
@@ -26,6 +26,12 @@ def getDescriptionsAndImages(link):
     browser = Firefox(executable_path='lazyacads/scraper/geckodriver')
     browser.implicitly_wait(12)
 
+    __scrapeLinksAndDescriptions(browser, link)
+
+def __scrapeLinksAndDescriptions(browser, link):
+    '''
+    getDescriptionsAndImages worker
+    '''
     # opens the link. waits every DOM query
     browser.get(link)
     
@@ -94,7 +100,7 @@ def main(link):
     '''
     Output: items.txt
     '''
-    getDescriptionsAndImages(link)
+    scrape(link)
     saveItems()
     close()
 

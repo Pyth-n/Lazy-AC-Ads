@@ -7,6 +7,7 @@ from selenium.webdriver import Firefox
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
+from selenium.common import exceptions
 from selenium.webdriver.firefox.options import Options
 
 opts = Options()
@@ -18,7 +19,7 @@ items = {}
 
 browser = None
 
-def getDescriptionsAndImages(link):
+def scrape(link):
     '''
     Gets only up to 9 total items from a Nookazon wishlist
     '''
@@ -26,22 +27,44 @@ def getDescriptionsAndImages(link):
     browser = Firefox(executable_path='lazyacads/scraper/geckodriver')
     browser.implicitly_wait(12)
 
+    try:
+        __scrapeLinksAndDescriptions(browser, link)
+    except:
+        print('There was connection issue (high traffic possibly). Please try again.')
+        close()
+        quit()
+
+def __scrapeLinksAndDescriptions(browser, link):
+    '''
+    getDescriptionsAndImages worker
+    '''
     # opens the link. waits every DOM query
     browser.get(link)
     
-    results = browser.find_elements_by_class_name('row')
-
-    children = results[0].find_elements_by_class_name('listing-row')
+    try:
+        results = browser.find_elements_by_class_name('row')
+        children = results[0].find_elements_by_class_name('listing-row')
+    except exceptions.StaleElementReferenceException as e:
+        print(f'{e}')
+        raise
 
     # stores description and image links in dictionary
     for i, text in enumerate(children):
         if i > 8:
             break
-        description = text.find_element_by_xpath('.//div[@class="listing-name"]').text
-        imgSrc = text.find_element_by_xpath('.//img[@class="listing-item-img"]').get_attribute('src')
-        items[imgSrc] = __stripAmount(description)
+        try:
+            description = text.find_element_by_xpath('.//div[@class="listing-name"]').text
+            imgSrc = text.find_element_by_xpath('.//img[@class="listing-item-img"]').get_attribute('src')
+            items[imgSrc] = __stripAmount(description)
+        except exceptions.StaleElementReferenceException as e:
+            print(f'{e}')
+            raise
 
 def __stripAmount(item):
+    '''
+    input: "2 X Name of item"
+    output: "Name of item"
+    '''
     newString = re.sub(r'^(\d*\sX\s)?', '', item)
     return newString
 
@@ -56,6 +79,7 @@ def __loadAllItems():
             WebDriverWait(browser, 5).until(EC.element_to_be_clickable((By.XPATH, './/div[@class="see-all-btn-bar"]/button'))).click()
             time.sleep(random.randint(2, 4)) # don't want the api to throttle connection
         except:
+            print('Bottom page reached')
             break
     return
 
@@ -68,9 +92,11 @@ def saveItems():
         with open('lazyacads/scraper/items.txt', 'w') as f:
             f.write(str(items))
             print('wrote items.txt')
-    except:
+    except OSError as e:
+        print(f'{e}: Could not save items.txt')
         close()
-        raise Exception('Error saving items.txt')
+        quit()
+        raise
 
 def readItems():
     global items
@@ -79,9 +105,10 @@ def readItems():
         with open('lazyacads/scraper/items.txt', 'r') as r:
             tmp = r.read()
         items = ast.literal_eval(tmp)
-        print('read item.txt')
-    except FileNotFoundError:
-        print('error readings items')
+        print('Read items.txt successfully')
+    except FileNotFoundError as e:
+        print(f'{e}: items.txt not found')
+        raise
 
 def close():
     global browser
@@ -94,7 +121,7 @@ def main(link):
     '''
     Output: items.txt
     '''
-    getDescriptionsAndImages(link)
+    scrape(link)
     saveItems()
     close()
 

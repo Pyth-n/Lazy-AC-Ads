@@ -26,6 +26,10 @@ arialFontBig = ImageFont.truetype('lazyacads/assets/fonts/arialbd.ttf', 26)
 draw = ImageDraw.Draw(root)
 
 def openItems():
+    '''
+    Loads items.txt dictionary into global items{}
+    <PNG link, description>
+    '''
     global items
 
     try:
@@ -37,6 +41,11 @@ def openItems():
         quit()
 
 def downloadImages():
+    '''
+    Downloads images from global items{} dictionary key
+    Saves them in assets subfolder
+    Note: Deletes all previous PNG files in this directory
+    '''
     global items
 
     for i, key in enumerate(items):
@@ -58,6 +67,11 @@ def downloadImages():
                 f.write(block)
 
 def openImages():
+    '''
+    Instantiates PNG files into an Image object
+    These instances are then stored into images{} dictionary
+    <full path to PNG, Image instance>
+    '''
     # set path to assets folder
     path = os.getcwd() + '/lazyacads/assets'
 
@@ -140,6 +154,9 @@ def renderAll():
             y += 192
 
 def drawLines():
+    '''
+    Draws the lines to square off items
+    '''
     global draw
     # draw vertical lines
     draw.line([(192, 0), 192,640], fill='white', width=1)
@@ -166,6 +183,9 @@ def deletePNGs():
 def __getValue(key):
     global items
     
+    '''
+    Returns the description of an item
+    '''
     key = key.split('/')[-1]
     for k in items.values():
         if k[0] == key:
@@ -224,6 +244,9 @@ def __splitText(indexes, text):
     __drawText(indexes, textAppend)
 
 def __drawText(indexes, text):
+    '''
+    Renders the description
+    '''
     global draw, arialFont
 
     # calculate the y position of where the text should be placed
@@ -254,4 +277,4 @@ def main():
     print('Saved as rendered.png')
 
 if __name__ == '__main__':
-    main()
+    openItems()

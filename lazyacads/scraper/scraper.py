@@ -92,9 +92,11 @@ def saveItems():
         with open('lazyacads/scraper/items.txt', 'w') as f:
             f.write(str(items))
             print('wrote items.txt')
-    except:
+    except OSError as e:
+        print(f'{e}: Could not save items.txt')
         close()
-        raise Exception('Error saving items.txt')
+        quit()
+        raise
 
 def readItems():
     global items

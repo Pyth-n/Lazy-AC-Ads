@@ -39,7 +39,7 @@ try:
     if shouldPrompt[0] == 'y':
         render.shouldPromptNMTs = True
 except IndexError as e:
-    print(e)
+    print(f'{e}: not prompting for nmt pricing')
 
 print('Beginning to render file')
 render.main()

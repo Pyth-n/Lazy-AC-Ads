@@ -21,6 +21,7 @@ class Renderer:
         self.__shouldPromptPrice = False
 
         self.__deletePNGs()
+        self.__downloadPNGs()
 
     # Private functions
     def __openItems(self, itemsPath: str) -> dict:
@@ -41,6 +42,17 @@ class Renderer:
                 print(f'deleting {PATH_ASSETS / file}')
                 os.remove(os.path.abspath(PATH_ASSETS / file))
         pass
+
+    def __downloadPNGs(self) -> None:
+        for link in self.__items:
+            fileName = link.split('/')[-1]
+            print(f'downloading {fileName}')
+
+            with open(PATH_ASSETS / fileName, 'wb') as f:
+                image = requests.get(link, stream = True)
+
+                for block in image.iter_content(chunk_size=1024):
+                    f.write(block)
 
 if __name__ == '__main__':
     test = Renderer(PATH_ITEMS)

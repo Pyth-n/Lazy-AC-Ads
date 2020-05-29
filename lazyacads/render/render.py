@@ -36,11 +36,6 @@ def openItems():
         print(fnf)
         quit()
 
-    # store items locally
-    for x in items:
-        tmpUrl = x.split('/')[-1]
-        itemsLocal[tmpUrl] = items[x]
-
 def downloadImages():
     global items
 
@@ -49,7 +44,7 @@ def downloadImages():
         if i > 8:
             break
 
-        filename = key.split('/')[-1]
+        filename = items[key][0]
         savePath = os.path.join('lazyacads/assets', filename)
 
         with open(savePath, 'wb') as f:
@@ -169,9 +164,13 @@ def deletePNGs():
             os.remove(fullPath)
 
 def __getValue(key):
+    global items
+    
     key = key.split('/')[-1]
-    if key in itemsLocal:
-        return itemsLocal[key]
+    for k in items.values():
+        if k[0] == key:
+            return k[1]
+    
     return 'error getting name'
 
 def __splitText(indexes, text):

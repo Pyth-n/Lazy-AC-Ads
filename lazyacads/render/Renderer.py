@@ -34,9 +34,12 @@ class Renderer:
         self.__openImages()
         self.__calculateRowSize()
         self.__calculateTotalSize()
+        
         self.__newImage((self.__size[0], self.__size[1]))
+        
         self.__drawLines()
-        self.__drawPrice(0, 192, 'WWWWWWWWWWWWW')
+        self.__drawImage((32, 0), self.__images['FtrTV50inchWall_Remake_2_0.png'])
+        self.__drawPrice(0, 0, 'WWWWWWWWWWWWW')
         self.__image.show()
 
     # Private functions
@@ -124,6 +127,10 @@ class Renderer:
         offset = column * 192
         center = (192 - textSize[0]) / 2 + offset
         self.__draw.text((center, y), amount, fill='white', font=self.__arialFont, align='center')
+
+    def __drawImage(self, xy: tuple, image: Image) -> None:
+        print(f'drawing: {image}')
+        self.__image.paste(image, (xy[0], xy[1]), image)
 
 if __name__ == '__main__':
     test = Renderer(PATH_ITEMS)

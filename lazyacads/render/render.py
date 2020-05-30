@@ -48,18 +48,17 @@ def downloadImages():
     '''
     global items
 
-    for i, key in enumerate(items):
+    for i, file in enumerate(items):
         # save only 9 items
         if i > 8:
             break
 
-        filename = items[key][0]
-        savePath = os.path.join('lazyacads/assets', filename)
+        savePath = os.path.join('lazyacads/assets', file)
 
         with open(savePath, 'wb') as f:
             time.sleep(1)
-            print(f'Download image: {filename}')
-            res = requests.get(key, stream = True)
+            print(f'Download image: {file}')
+            res = requests.get(items[file][0], stream = True)
 
             for block in res.iter_content(1024):
                 if not block:
@@ -86,7 +85,7 @@ def openImages():
         if os.path.isfile(fullPath) and ext == '.png':
             tmp = Image.open(fullPath).convert('RGBA')
             tmp2 = tmp.resize((128, 128))
-            images[fullPath] = tmp2
+            images[x] = tmp2
             tmp.close()
 
 def processText(indexes, text):
@@ -186,10 +185,8 @@ def __getValue(key):
     '''
     Returns the description of an item
     '''
-    key = key.split('/')[-1]
-    for k in items.values():
-        if k[0] == key:
-            return k[1]
+    if key in items:
+        return items[key][1]
     
     return 'error getting name'
 
@@ -277,4 +274,4 @@ def main():
     print('Saved as rendered.png')
 
 if __name__ == '__main__':
-    openItems()
+    main()

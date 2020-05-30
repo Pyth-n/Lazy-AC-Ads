@@ -16,6 +16,7 @@ PATH_ASSETS = Path(os.getcwd(), 'lazyacads', 'assets')
 class Renderer:
     def __init__(self, itemsPath: str) -> None:
         # private members
+        self.__size = 0
         self.__images = {}
         self.__items = self.__openItems(itemsPath)
         self.__itemsLocal = {}
@@ -23,6 +24,8 @@ class Renderer:
 
         self.__deletePNGs()
         self.__downloadPNGs()
+        self.__openImages()
+        self.__calculateRowSize()
 
     # Private functions
     def __openItems(self, itemsPath: str) -> dict:
@@ -60,6 +63,16 @@ class Renderer:
             if file in self.__items:
                 img = Image.open(PATH_ASSETS / file).convert('RGBA').resize((128,128))
                 self.__images[file] = img
+
+    def __calculateRowSize(self) -> None:
+        '''
+        Calculate number of rows based on number of images
+        '''
+        totalImages = len(self.__images)
+        if totalImages <= 3 and totalImages > 0:
+            return 1
+
+        return math.ceil(totalImages / 4)
 
 if __name__ == '__main__':
     test = Renderer(PATH_ITEMS)

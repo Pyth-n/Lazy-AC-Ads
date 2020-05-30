@@ -16,7 +16,8 @@ PATH_ASSETS = Path(os.getcwd(), 'lazyacads', 'assets')
 class Renderer:
     def __init__(self, itemsPath: str) -> None:
         # private members
-        self.__size = 0
+        self.__rows = 0
+        self.__size = []
         self.__images = {}
         self.__items = self.__openItems(itemsPath)
         self.__itemsLocal = {}
@@ -70,10 +71,10 @@ class Renderer:
         '''
         totalImages = len(self.__images)
         if totalImages <= 3 and totalImages > 0:
-            self.__size =  1
+            self.__rows =  1
             return
 
-        self.__size = math.ceil(totalImages / 4)
+        self.__rows = math.ceil(totalImages / 4)
 
 if __name__ == '__main__':
     test = Renderer(PATH_ITEMS)

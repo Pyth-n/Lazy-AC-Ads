@@ -36,6 +36,7 @@ class Renderer:
         self.__calculateTotalSize()
         self.__newImage((self.__size[0], self.__size[1]))
         self.__drawLines()
+        self.__drawPrice(0, 192, 'WWWWWWWWWWWWW')
         self.__image.show()
 
     # Private functions
@@ -113,6 +114,14 @@ class Renderer:
         self.__draw.line([(0,192), (self.__size[0], 192)], fill='white', width=1)
         self.__draw.line([(0,384), (self.__size[0], 384)], fill='white', width=1)
         self.__draw.line([(0,576), (self.__size[0], 576)], fill='white', width=1)
-        
+
+    def __drawPrice(self, column: int, y: int, amount: int) -> None:
+        if len(amount) > 13:
+            raise ValueError('Price cannot exceed 13 characters')
+        textSize = self.__draw.textsize(amount, font=self.__arialFont)
+        offset = column * 192
+        center = (192 - textSize[0]) / 2 + offset
+        self.__draw.text((center, y), amount, fill='white', font=self.__arialFont, align='center')
+
 if __name__ == '__main__':
     test = Renderer(PATH_ITEMS)

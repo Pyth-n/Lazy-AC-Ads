@@ -20,7 +20,6 @@ class Renderer:
         self.__size = []
         self.__images = {}
         self.__items = self.__openItems(itemsPath)
-        self.__itemsLocal = {}
         self.__shouldPromptPrice = False
 
         self.__deletePNGs()

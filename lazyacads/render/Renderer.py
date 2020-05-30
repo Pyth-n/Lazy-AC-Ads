@@ -55,5 +55,11 @@ class Renderer:
                 for block in image.iter_content(chunk_size=1024):
                     f.write(block)
 
+    def __openImages(self) -> None:
+        for file in os.listdir(PATH_ASSETS):
+            if file in self.__items:
+                img = Image.open(PATH_ASSETS / file).convert('RGBA').resize((128,128))
+                self.__images[file] = img
+
 if __name__ == '__main__':
     test = Renderer(PATH_ITEMS)

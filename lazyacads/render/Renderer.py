@@ -19,10 +19,14 @@ class Renderer:
         # private members
         self.__image = None
         self.__arialFont = ImageFont.truetype(str(PATH_FONTS / 'arialbd.ttf'), 15)
+        self.__draw = None # obtains value inside __newImage()
+
         self.__rows = 0
         self.__size = []
+
         self.__images = {}
         self.__items = self.__openItems(itemsPath)
+        
         self.__shouldPromptPrice = False
 
         self.__deletePNGs()
@@ -31,6 +35,8 @@ class Renderer:
         self.__calculateRowSize()
         self.__calculateTotalSize()
         self.__newImage((self.__size[0], self.__size[1]))
+        self.__drawLines()
+        self.__image.show()
 
     # Private functions
     def __openItems(self, itemsPath: str) -> dict:
@@ -96,6 +102,17 @@ class Renderer:
     def __newImage(self, xy: tuple) -> None:
         print(f'creating image with these dimensions - width: {xy[0]}, height: {xy[1]}')
         self.__image = Image.new('RGBA', (xy[0], xy[1]))
+        self.__draw = ImageDraw.Draw(self.__image)
+
+    def __drawLines(self) -> None:
+        # Draw vertical lines
+        self.__draw.line([(192,0), (192, self.__size[1])], fill='white', width=1)
+        self.__draw.line([(384,0), (384, self.__size[1])], fill='white', width=1)
+        self.__draw.line([(576,0), (576, self.__size[1])], fill='white', width=1)
+        # Draw horizontal lines
+        self.__draw.line([(0,192), (self.__size[0], 192)], fill='white', width=1)
+        self.__draw.line([(0,384), (self.__size[0], 384)], fill='white', width=1)
+        self.__draw.line([(0,576), (self.__size[0], 576)], fill='white', width=1)
         
 if __name__ == '__main__':
     test = Renderer(PATH_ITEMS)

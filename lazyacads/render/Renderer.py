@@ -3,6 +3,7 @@ import sys
 import math
 import ast
 import time
+import random
 from pathlib import Path
 
 import requests
@@ -44,12 +45,12 @@ class Renderer:
         pass
 
     def __downloadPNGs(self) -> None:
-        for link in self.__items:
-            fileName = link.split('/')[-1]
+        for fileName in self.__items:
+            time.sleep(random.uniform(.4, 1.5))
             print(f'downloading {fileName}')
 
             with open(PATH_ASSETS / fileName, 'wb') as f:
-                image = requests.get(link, stream = True)
+                image = requests.get(self.__items[fileName][0], stream = True)
 
                 for block in image.iter_content(chunk_size=1024):
                     f.write(block)

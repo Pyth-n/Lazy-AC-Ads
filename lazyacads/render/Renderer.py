@@ -70,11 +70,24 @@ class Renderer:
         Calculate number of rows based on number of images
         '''
         totalImages = len(self.__images)
-        if totalImages <= 3 and totalImages > 0:
+        if totalImages <= 4 and totalImages > 0:
             self.__rows =  1
             return
 
         self.__rows = math.ceil(totalImages / 4)
+
+    def __calculateTotalSize(self) -> None:
+        totalImages = len(self.__images)
+
+        x = 768
+        y = self.__rows * 192
+
+        if totalImages <= 4 and totalImages > 0:
+            x = totalImages * 192
+            y = 192
+        
+        self.__size.append(x) # set width size
+        self.__size.append(y) # set height size
 
 if __name__ == '__main__':
     test = Renderer(PATH_ITEMS)

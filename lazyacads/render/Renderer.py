@@ -16,6 +16,7 @@ PATH_ASSETS = Path(os.getcwd(), 'lazyacads', 'assets')
 class Renderer:
     def __init__(self, itemsPath: str) -> None:
         # private members
+        self.__image = None
         self.__rows = 0
         self.__size = []
         self.__images = {}
@@ -26,6 +27,8 @@ class Renderer:
         self.__downloadPNGs()
         self.__openImages()
         self.__calculateRowSize()
+        self.__calculateTotalSize()
+        self.__newImage((self.__size[0], self.__size[1]))
 
     # Private functions
     def __openItems(self, itemsPath: str) -> dict:
@@ -88,5 +91,9 @@ class Renderer:
         self.__size.append(x) # set width size
         self.__size.append(y) # set height size
 
+    def __newImage(self, xy: tuple) -> None:
+        print(f'creating image with these dimensions - width: {xy[0]}, height: {xy[1]}')
+        self.__image = Image.new('RGBA', (xy[0], xy[1]))
+        
 if __name__ == '__main__':
     test = Renderer(PATH_ITEMS)

@@ -18,7 +18,7 @@ class Renderer:
     def __init__(self, itemsPath: str) -> None:
         # private members
         self.__image = None
-        self.__arialFont = ImageFont.truetype(str(PATH_FONTS / 'arialbd.ttf'), 15)
+        self.__arialFont = ImageFont.truetype(str(PATH_FONTS / 'arialbd.ttf'), 25)
         self.__draw = None # obtains value inside __newImage()
 
         self.__rows = 0
@@ -38,8 +38,12 @@ class Renderer:
         self.__newImage((self.__size[0], self.__size[1]))
         
         self.__drawLines()
-        self.__drawImage((32, 0), self.__images['FtrTV50inchWall_Remake_2_0.png'])
-        self.__drawPrice(0, 0, 'WWWWWWWWWWWWW')
+        self.__drawImage((32, 18), self.__images['FtrTV50inchWall_Remake_2_0.png'])
+        self.__drawPrice(0, 0, '0000000000000')
+        self.__drawDescription(0, 146, 'WWWWWWWWWWWWW')
+        self.__drawDescription(0, 161, 'WWWWWWWWWWWWW')
+        self.__drawDescription(0, 176, 'WWWWWWWWWWWWW')
+
         self.__image.show()
 
     # Private functions
@@ -131,6 +135,14 @@ class Renderer:
     def __drawImage(self, xy: tuple, image: Image) -> None:
         print(f'drawing: {image}')
         self.__image.paste(image, (xy[0], xy[1]), image)
+
+    def __drawDescription(self, column: int, y: int, description: str) -> None:
+        self.__arialFont = ImageFont.truetype(str(PATH_FONTS / 'arialbd.ttf'), 15)
+        textSize = self.__draw.textsize(description, font=self.__arialFont)
+        offset = column * 192
+        center = (192 - textSize[0]) / 2 + offset
+        self.__draw.text((center, y), description, fill='white', font=self.__arialFont, align='center')
+
 
 if __name__ == '__main__':
     test = Renderer(PATH_ITEMS)

@@ -56,7 +56,7 @@ def __scrapeLinksAndDescriptions(browser, link):
             description = text.find_element_by_xpath('.//div[@class="listing-name"]').text
             imgSrc = text.find_element_by_xpath('.//img[@class="listing-item-img"]').get_attribute('src')
             fileName = imgSrc.split('/')[-1]
-            items[imgSrc] = (fileName, __stripAmount(description))
+            items[fileName] = (imgSrc, __stripAmount(description), None)
         except exceptions.StaleElementReferenceException as e:
             print(f'{e}')
             raise

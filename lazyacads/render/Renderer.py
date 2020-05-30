@@ -12,11 +12,13 @@ from lazyacads.scraper import scraper
 
 PATH_ITEMS = Path(os.getcwd(), 'lazyacads', 'scraper', 'items.txt')
 PATH_ASSETS = Path(os.getcwd(), 'lazyacads', 'assets')
+PATH_FONTS = Path(os.getcwd(), 'lazyacads', 'assets', 'fonts')
 
 class Renderer:
     def __init__(self, itemsPath: str) -> None:
         # private members
         self.__image = None
+        self.__arialFont = ImageFont.truetype(str(PATH_FONTS / 'arialbd.ttf'), 15)
         self.__rows = 0
         self.__size = []
         self.__images = {}

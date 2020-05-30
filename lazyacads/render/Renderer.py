@@ -136,30 +136,32 @@ class Renderer:
 
     def __drawDescription(self, column: int, y: int, description: str) -> None:
         self.__arialFont = ImageFont.truetype(str(PATH_FONTS / 'arialbd.ttf'), 15)
-        textSize = int(self.__draw.textsize(description, font=self.__arialFont)[0] / 3)
-        offset = column * 192
-        center = (192 - textSize) / 2 + offset
-        
-        self.__draw.text((center, y), self.__splitText(description), fill='white', font=self.__arialFont, align='center', spacing=1)
+        text = self.__splitText(description)
+        textSize = int(self.__draw.textsize(description, font=self.__arialFont)[0] / text[1])
 
-    def __splitText(self, text: str) -> str:
+        offset = column * 192
+        center = (192 - textSize) / 2 + offset - 15
+        
+        self.__draw.text((center, y), text[0], fill='white', font=self.__arialFont, align='center', spacing=1)
+
+    def __splitText(self, text: str) -> tuple:
         length = len(text)
         newString = []
         rowCount = 0
         prevIndex = 0
         for char in range(length):
             if rowCount > 3:
-                return ''.join(newString)
-            if char % 12 == 0 and char != 0:
-                print(f'{char}')
+                return (''.join(newString), 3)
+            if char % 20 == 0 and char != 0:
                 rowCount += 1
                 newString.append(text[prevIndex:char] + '\n')
                 prevIndex = char
 
-        if prevIndex < length - 1:
+        if prevIndex < length:
             newString.append(text[prevIndex:length])
+            rowCount += 1
 
-        return ''.join(newString)
+        return (''.join(newString), rowCount)
 
 if __name__ == '__main__':
     test = Renderer(PATH_ITEMS)

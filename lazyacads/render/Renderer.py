@@ -106,14 +106,16 @@ class Renderer:
         self.__draw = ImageDraw.Draw(self.__image)
 
     def __drawLines(self) -> None:
+        fill = 'yellow'
+        fill2 = 'red'
         # Draw vertical lines
-        self.__draw.line([(192,0), (192, self.__size[1])], fill='white', width=1)
-        self.__draw.line([(384,0), (384, self.__size[1])], fill='white', width=1)
-        self.__draw.line([(576,0), (576, self.__size[1])], fill='white', width=1)
+        self.__draw.line([(192,0), (192, self.__size[1])], fill=fill, width=1)
+        self.__draw.line([(384,0), (384, self.__size[1])], fill=fill, width=1)
+        self.__draw.line([(576,0), (576, self.__size[1])], fill=fill, width=1)
         # Draw horizontal lines
-        self.__draw.line([(0,192), (self.__size[0], 192)], fill='white', width=1)
-        self.__draw.line([(0,384), (self.__size[0], 384)], fill='white', width=1)
-        self.__draw.line([(0,576), (self.__size[0], 576)], fill='white', width=1)
+        self.__draw.line([(0,192), (self.__size[0], 192)], fill=fill2, width=1)
+        self.__draw.line([(0,384), (self.__size[0], 384)], fill=fill2, width=1)
+        self.__draw.line([(0,576), (self.__size[0], 576)], fill=fill2, width=1)
 
     def __drawPrice(self, column: int, y: int, amount: int) -> None:
         if len(amount) > 13:

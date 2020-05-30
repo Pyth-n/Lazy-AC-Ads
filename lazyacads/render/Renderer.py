@@ -71,6 +71,7 @@ class Renderer:
         totalImages = len(self.__images)
         if totalImages <= 3 and totalImages > 0:
             self.__size =  1
+            return
 
         self.__size = math.ceil(totalImages / 4)
 

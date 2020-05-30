@@ -139,8 +139,12 @@ class Renderer:
         text = self.__splitText(description)
         textSize = int(self.__draw.textsize(description, font=self.__arialFont)[0] / text[1])
 
+        rowOffset = 0
+        if text[1] > 1:
+            rowOffset = (text[1] * 15)
+
         offset = column * 192
-        center = (192 - textSize) / 2 + offset - 15
+        center = (192 - textSize - rowOffset) / 2 + offset
         
         self.__draw.text((center, y), text[0], fill='white', font=self.__arialFont, align='center', spacing=1)
 

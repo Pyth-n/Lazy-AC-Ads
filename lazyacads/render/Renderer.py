@@ -70,9 +70,9 @@ class Renderer:
         '''
         totalImages = len(self.__images)
         if totalImages <= 3 and totalImages > 0:
-            return 1
+            self.__size =  1
 
-        return math.ceil(totalImages / 4)
+        self.__size = math.ceil(totalImages / 4)
 
 if __name__ == '__main__':
     test = Renderer(PATH_ITEMS)

@@ -14,6 +14,8 @@ PATH_ITEMS = Path(os.getcwd(), 'lazyacads', 'scraper', 'items.txt')
 PATH_ASSETS = Path(os.getcwd(), 'lazyacads', 'assets')
 PATH_FONTS = Path(os.getcwd(), 'lazyacads', 'assets', 'fonts')
 
+DIVISIBLE_ROWS_DESCRIPTION = 20
+
 class Renderer:
     def __init__(self, itemsPath: str) -> None:
         # private members
@@ -156,7 +158,7 @@ class Renderer:
         for char in range(length):
             if rowCount > 3:
                 return (''.join(newString), 3)
-            if char % 20 == 0 and char != 0:
+            if char % DIVISIBLE_ROWS_DESCRIPTION == 0 and char != 0:
                 rowCount += 1
                 newString.append(text[prevIndex:char] + '\n')
                 prevIndex = char

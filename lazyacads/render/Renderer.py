@@ -139,18 +139,14 @@ class Renderer:
         self.__image.paste(image, (xy[0], xy[1]), image)
 
     def __drawDescription(self, column: int, y: int, description: str) -> None:
-        self.__arialFont = ImageFont.truetype(str(PATH_FONTS / 'arialbd.ttf'), 12)
+        self.__arialFont = ImageFont.truetype(str(PATH_FONTS / 'arialbd.ttf'), 15)
         text = self.__splitText(description)
-        textSize = int(self.__draw.textsize(description, font=self.__arialFont)[0] / text[1])
-
-        rowOffset = 0
-        if text[1] > 1:
-            rowOffset = (text[1] * 15)
+        textSize = int(self.__draw.textsize(text[0], font=self.__arialFont)[0])
 
         offset = column * 192
-        center = (192 - textSize - rowOffset) / 2 + offset
+        center = (192 - textSize) / 2 + offset
         
-        self.__draw.text((center, y), text[0], fill='white', font=self.__arialFont, align='left', spacing=1)
+        self.__draw.text((center, y), text[0], fill='white', font=self.__arialFont, align='center', spacing=1)
 
     def __splitText(self, text: str) -> tuple:
         length = len(text)

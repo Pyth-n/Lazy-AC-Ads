@@ -158,7 +158,7 @@ class Renderer:
                 return (''.join(newString), 3)
             if char % DIVISIBLE_ROWS_DESCRIPTION == 0 and char != 0:
                 rowCount += 1
-                newString.append(text[prevIndex:char] + '\n')
+                newString.append(text[prevIndex:char] + '-\n')
                 prevIndex = char
 
         if prevIndex < length:

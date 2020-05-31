@@ -24,7 +24,7 @@ class Renderer:
     def __init__(self, itemsPath: str) -> None:
         # private members
         self.__image = None
-        self.__arialFont = ImageFont.truetype(str(PATH_FONTS / 'arialbd.ttf'), 25)
+        self.__arialFont = None
         self.__draw = None # obtains value inside __newImage()
 
         self.__rows = 0
@@ -130,6 +130,7 @@ class Renderer:
         self.__draw.line([(0,576), (self.__size[0], 576)], fill=fill2, width=1)
 
     def __drawPrice(self, column: int, y: int, amount: int) -> None:
+        self.__arialFont = ImageFont.truetype(str(PATH_FONTS / 'arialbd.ttf'), 25)
         if len(amount) > 13:
             raise ValueError('Price cannot exceed 13 characters')
         textSize = self.__draw.textsize(amount, font=self.__arialFont)

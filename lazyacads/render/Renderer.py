@@ -168,20 +168,25 @@ class Renderer:
         return (''.join(newString), rowCount)
 
     def __render(self) -> None:
-        x_image, y_image = 0, 0
-        x_price, y_price = 0, 0
-        x_desc, y_desc = 0, 0
+        x, y = 0, 0
         col = 0
 
         for i, values in enumerate(self.__images.items()):
             key = values[0]
+            description = self.__items[key][1]
+            
             # Need to start drawing in new row
             if i % 4 == 0 and i != 0:
-                y_desc += 192
+                y += 192
                 col = 0
+                x = 0
             elif i != 0:
                 col += 1
-            self.__drawPrice(col, y_desc, '5 NMT')
+                x += 192
+
+            self.__drawPrice(col, y, '5 NMT')
+            self.__drawDescription(col, y + OFFSET_Y_DESCRIPTION, description)
+            self.__drawImage((x + OFFSET_X_IMAGE, y + OFFSET_Y_IMAGE), values[1])
 
 if __name__ == '__main__':
     test = Renderer(PATH_ITEMS)

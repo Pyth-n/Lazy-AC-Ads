@@ -42,13 +42,9 @@ class Renderer:
         self.__calculateTotalSize()
         
         self.__newImage((self.__size[0], self.__size[1]))
-        
         self.__drawLines()
 
-        self.__drawImage((OFFSET_X_IMAGE, OFFSET_Y_IMAGE), self.__images['FtrTV50inchWall_Remake_2_0.png'])
-        self.__drawPrice(0, 0, '0000000000000')
-        self.__drawDescription(0, OFFSET_Y_DESCRIPTION, 'Silver Wall-Mounted TV (50 In.)')
-
+        self.__render()
         self.__image.show()
 
     # Private functions
@@ -174,6 +170,22 @@ class Renderer:
             rowCount += 1
 
         return (''.join(newString), rowCount)
+
+    def __render(self) -> None:
+        x_image, y_image = 0, 0
+        x_price, y_price = 0, 0
+        x_desc, y_desc = 0, 0
+        col = 0
+
+        for i, values in enumerate(self.__images.items()):
+            key = values[0]
+            # Need to start drawing in new row
+            if i % 4 == 0 and i != 0:
+                y_desc += 192
+                col = 0
+            elif i != 0:
+                col += 1
+            self.__drawPrice(col, y_desc, '5 NMT')
 
 if __name__ == '__main__':
     test = Renderer(PATH_ITEMS)

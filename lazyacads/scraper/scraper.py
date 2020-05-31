@@ -50,7 +50,7 @@ def __scrapeLinksAndDescriptions(browser, link):
 
     # stores description and image links in dictionary
     for i, text in enumerate(children):
-        if i > 8:
+        if i > 11:
             break
         try:
             description = text.find_element_by_xpath('.//div[@class="listing-name"]').text

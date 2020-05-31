@@ -15,6 +15,10 @@ PATH_ASSETS = Path(os.getcwd(), 'lazyacads', 'assets')
 PATH_FONTS = Path(os.getcwd(), 'lazyacads', 'assets', 'fonts')
 
 DIVISIBLE_ROWS_DESCRIPTION = 20
+OFFSET_X_IMAGE = 32
+OFFSET_Y_IMAGE = 18
+
+OFFSET_Y_DESCRIPTION = 146
 
 class Renderer:
     def __init__(self, itemsPath: str) -> None:
@@ -40,9 +44,10 @@ class Renderer:
         self.__newImage((self.__size[0], self.__size[1]))
         
         self.__drawLines()
-        self.__drawImage((32, 18), self.__images['FtrTV50inchWall_Remake_2_0.png'])
+
+        self.__drawImage((OFFSET_X_IMAGE, OFFSET_Y_IMAGE), self.__images['FtrTV50inchWall_Remake_2_0.png'])
         self.__drawPrice(0, 0, '0000000000000')
-        self.__drawDescription(0, 146, 'Silver Wall-Mounted TV (50 In.)')
+        self.__drawDescription(0, OFFSET_Y_DESCRIPTION, 'Silver Wall-Mounted TV (50 In.)')
 
         self.__image.show()
 

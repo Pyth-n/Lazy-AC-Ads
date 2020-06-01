@@ -5,11 +5,14 @@ if __name__ != '__main__':
 import sys
 import os
 import re
+from pathlib import Path
 
 from PIL import Image
 
 from lazyacads.scraper import scraper
-from lazyacads.render import render
+from lazyacads.render.Renderer import Renderer
+
+PATH_ITEMS = Path(os.getcwd(), 'lazyacads', 'scraper', 'items.txt')
 
 re_url = re.compile(r'^(https://)?(nookazon.com/profile/\d*/wishlist)')
 
@@ -21,25 +24,13 @@ except ValueError:
 
 try:
     re_url.search(url).group(2)
-except AttributeError as ae:
-    print(ae)
+except AttributeError as err:
+    print(err)
     print('That link is not a wishlist!')
     quit()
-
-try:
-    shouldPrompt = str(input('Would you like to price the items (5 default)? (y/n): ').lower().lstrip())
-except ValueError:
-    print('invalid input, no nmt prompts')
-    shouldPrompt = 'n'
 
 print('Scraping website, please do NOT touch')
 scraper.main(url)
 
-try:
-    if shouldPrompt[0] == 'y':
-        render.shouldPromptNMTs = True
-except IndexError as e:
-    print(f'{e}: not prompting for nmt pricing')
-
 print('Beginning to render file')
-render.main()
+_ = Renderer(PATH_ITEMS)
